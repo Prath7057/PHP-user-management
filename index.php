@@ -1,3 +1,6 @@
+<?php
+require_once 'include/connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
