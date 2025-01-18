@@ -4,25 +4,30 @@ $(document).ready(function () {
     //
 });
 function openUserForm(panelName, id) {
-
+   let confirmBox;
+    if (panelName == 'UpdateUser') {
+         confirmBox = confirm('Do You Really Want to Update This User ?');
+    }
     var url = "./include/openUserForm.php?panelName=" + encodeURIComponent(panelName);
     //
     if (id) {
         url += "&id=" + encodeURIComponent(id);
     }
     //
-    $.ajax({
-        url: url,
-        method: "GET",
-        success: function (response) {
-            $("#contents").html(response);
-            initializeInputFields();
-            document.getElementById('name').focus();
-        },
-        error: function (xhr, status, error) {
-            console.error("Error loading user form:", error);
-        }
-    });
+    if ((confirmBox && panelName == 'UpdateUser') || panelName == 'AddUser') {
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function (response) {
+                $("#contents").html(response);
+                initializeInputFields();
+                document.getElementById('name').focus();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading user form:", error);
+            }
+        });
+    }    
     //
 }
 //
@@ -60,25 +65,25 @@ function submitUserForm() {
     const nameField = document.getElementById('name');
     if (!nameField.value.trim()) {
         isValid = false;
-        alert('Please enter your name.');
+        alert('Please Enter Your Name!');
     }
 
     const genderField = document.getElementById('gender');
     if (!genderField.value) {
         isValid = false;
-        alert('Please select your gender.');
+        alert('Please Select Gender!');
     }
 
     const mobileField = document.getElementById('mobile');
     if (!mobileField.value.match(/^[0-9]{10}$/)) {
         isValid = false;
-        alert('Please enter a valid 10-digit mobile number.');
+        alert('Please Enter A valid 10-Digit Mobile No.');
     }
 
     const emailField = document.getElementById('email');
     if (!emailField.value.match(/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/)) {
         isValid = false;
-        alert('Please enter a valid email address.');
+        alert('Please Valid E-mail Id.');
     }
 
     if (!isValid) {
@@ -100,6 +105,21 @@ function submitUserForm() {
 }
 //
 function deleteUser(id) {
+    let confirmBox = confirm('Do You Really Want to Delete This User ?');
+    if (confirmBox) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("contents").innerHTML = xmlhttp.responseText;
+                $('#userTable').DataTable();
+            }
+        };
+        xmlhttp.open("POST", "include/deleteUser.php?id=" + id, true);
+        xmlhttp.send();
+    }
+}
+//
+function viewUser(id) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -107,7 +127,19 @@ function deleteUser(id) {
             $('#userTable').DataTable();
         }
     };
-    xmlhttp.open("POST", "include/deleteUser.php?id=" + id, true);
+    xmlhttp.open("POST", "include/viewUser.php?id=" + id, true);
+    xmlhttp.send();
+}
+//
+function openUserList() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("contents").innerHTML = xmlhttp.responseText;
+            $('#userTable').DataTable();
+        }
+    };
+    xmlhttp.open("POST", "include/openUserList.php", true);
     xmlhttp.send();
 }
 //

@@ -16,7 +16,9 @@ require_once 'include/connection.php';
     <div class="container mt-5">
         <ul class="nav justify-content-start">
             <li class="nav-item">
-                <button type="button" class="btn btn-outline-info">HOME</button>
+                <button type="button" class="btn btn-outline-info"
+                 onclick="openUserList();"
+                >HOME</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-outline-primary ms-2"
