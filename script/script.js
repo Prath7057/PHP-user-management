@@ -81,9 +81,9 @@ function submitUserForm() {
         alert('Please enter a valid email address.');
     }
 
-    // if (!isValid) {
-    //     return;
-    // }
+    if (!isValid) {
+        return;
+    }
 
     const formData = new FormData(document.getElementById('userForm'));
     //
@@ -98,3 +98,16 @@ function submitUserForm() {
     };
     xmlhttp.send(formData);
 }
+//
+function deleteUser(id) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("contents").innerHTML = xmlhttp.responseText;
+            $('#userTable').DataTable();
+        }
+    };
+    xmlhttp.open("POST", "include/deleteUser.php?id=" + id, true);
+    xmlhttp.send();
+}
+//

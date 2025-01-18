@@ -39,7 +39,7 @@ require_once 'connection.php';
                         <td>
                             <button class="btn btn-info btn-sm view-btn" data-id="<?php echo $user['id']; ?>">View</button>
                             <button class="btn btn-warning btn-sm update-btn" onclick="openUserForm('UpdateUser',<?php echo $user['id']; ?>);">Update</button>
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="<?php echo $user['id']; ?>">Delete</button>
+                            <button class="btn btn-danger btn-sm delete-btn" onclick="deleteUser(<?php echo $user['id']; ?>);">Delete</button>
                         </td>
                     </tr>
             <?php
